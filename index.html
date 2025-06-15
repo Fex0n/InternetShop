@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <title>Интернет магазин</title>
+  <style>
+    /* Общие стили */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Open Sans", sans-serif;
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Навбар */
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 15px 0;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+      position: relative;
+    }
+
+    .burger-menu {
+      display: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .burger-menu img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .main-nav {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav__links {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav__links li {
+      padding: 0 15px;
+    }
+
+    .nav__links li a {
+      font-family: "Open Sans", sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      color: black;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav__links li a:hover {
+      color: #555;
+    }
+
+    .nav__links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #555;
+      bottom: -5px;
+      left: 0;
+      transition: width 0.3s;
+    }
+
+    .nav__links li a:hover::after {
+      width: 100%;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .search-btn {
+      background: none;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .search-btn img {
+      width: 20px;
+      height: 20px;
+      transition: opacity 0.3s;
+    }
+
+    .search-btn:hover img {
+      opacity: 0.7;
+    }
+
+    .search-input {
+      width: 0;
+      padding: 0;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      outline: none;
+      transition: all 0.3s;
+      position: absolute;
+      right: 30px;
+      background: transparent;
+    }
+
+    .search-input.active {
+      width: 200px;
+      padding: 5px 10px;
+    }
+
+    .cart img {
+      width: 20px;
+      height: 20px;
+      transition: opacity 0.3s;
+    }
+
+    .cart:hover img {
+      opacity: 0.7;
+    }
+
+    /* Интересные предложения */
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    .main-block {
+      background-color: #e0f0fb;
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .main-block .content-left {
+      flex: 0 0 50%;
+      padding-right: 20px;
+      z-index: 1;
+    }
+
+    .main-block h1 {
+      font-size: 3em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #333;
+      line-height: 1.1;
+    }
+
+    .main-block p {
+      font-size: 1em;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .iphone-image {
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 550px;
+      height: auto;
+      object-fit: contain;
+      z-index: 0;
+      max-width: none;
+    }
+
+    .buy-button {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .buy-button:hover {
+      background-color: #eee;
+      transform: translateY(-2px);
+    }
+
+    .catalog-button, .details-button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .catalog-button:hover, .details-button:hover {
+      background-color: #555;
+      transform: translateY(-2px);
+    }
+
+    .bottom-blocks {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .block {
+      flex: 1;
+      min-width: 300px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .installment {
+      background-color: #e9e0f6;
+    }
+
+    .delivery {
+      background-color: #fefedd;
+    }
+
+    .block h2 {
+      font-size: 1.8em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .block p {
+      font-size: 0.95em;
+      line-height: 1.5;
+      margin-bottom: 25px;
+      color: #555;
+    }
+
+    /* Популярные товары */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .product-title {
+      font-size: 1em;
+      font-weight: 600;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .product-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .product-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
+
+    .price-label {
+      font-size: 0.9em;
+      color: #555;
+      font-weight: 400;
+    }
+
+    .product-price {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .buy-button {
+      background-color: #283141;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      width: calc(100% - 20px);
+      max-width: 200px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buy-button:hover {
+      background-color: #3a475c;
+    }
+
+    /* Каталог */
+    .visualy-hidden {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border: 0;
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+    }
+
+    .product-grid__list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .product-grid__list-kat {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .product-grid__item {
+      width: calc((100% - 3 * 20px) /4);
+    }
+
+    .product-grid__item-kat {
+      width: calc((100% - 25px) /2);
+    }
+
+    .product-card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+    }
+
+    .card-body {
+      justify-content: left;
+      align-content: baseline;
+    }
+
+    .product-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      min-height: 40px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .product-title__discr {
+      font-size: 18px;
+      font-weight: 400;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      line-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+
+    .btn-cont {
+      float: inline-start;
+    }
+
+    .color-btn {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      outline: none;
+      border: none;
+    }
+
+    .product-discription {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+    }
+
+    .buy-button__card {
+      max-width: none;
+      background-color: #1F222E;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-round {
+      width: 91px;
+      height: 38px;
+      border-radius: 66px;
+      padding: 6px 16px 8px 16px;
+      gap: 6px;
+      border-width: 0.15cap;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      background-color: white;
+    }
+
+    .buy-button__card:hover {
+      background-color: #3a475c;
+    }
+
+    .btn-more:hover {
+      background-color: #3a475c;
+    }
+
+    .color-box {
+      float: inline-start;
+    }
+
+    .btn-more {
+      max-width: none;
+      background-color: #1F222E;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 30px 48px 30px 48px;
+      margin-top: 30px;
+      font-size: 1em;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .color {
+      padding: 30px 0 0;
+    }
+
+    .black {
+      background-color: black;
+    }
+
+    .active {
+      background-color: #000000;
+      color: #fff;
+      font-weight: 200;
+    }
+
+    .green {
+      background-color: #525F4F;
+    }
+
+    .sky-blue {
+      background-color: #CCE0F0;
+    }
+
+    .light-blue {
+      background-color: #A3BCFF;
+    }
+
+    .blue {
+      background-color: #0047FF;
+    }
+
+    .active-border {
+      box-shadow: 0px 0px 0px 1.5px #5c5a5a;
+    }
+
+    /* Преимущества */
+    .advantages-section {
+      padding: 80px 20px;
+      background-color: #F8F5EF;
+    }
+
+    .advantages-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 40px;
+      text-align: left;
+      margin-left: -0px;
+    }
+
+    .advantages-cards-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .advantage-card {
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+      flex: 1;
+      min-width: 280px;
+      max-width: calc(33.333% - 20px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 0;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 1100px) {
+      .product-grid {
+        gap: 15px;
+        padding: 15px;
+      }
+      .product-card {
+        width: 220px;
+        padding: 15px;
+      }
+      .product-title {
+        font-size: 0.95em;
+      }
+      .product-image-container {
+        height: 160px;
+      }
+      .product-price {
+        font-size: 1.1em;
+      }
+      .buy-button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .advantage-card {
+        max-width: calc(50% - 15px);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .main-block {
+        flex-direction: column;
+        padding: 30px;
+      }
+      .main-block .content-left {
+        flex: unset;
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+      .main-block h1, .main-block p {
+        text-align: center;
+      }
+      .buy-button {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .iphone-image {
+        position: relative;
+        width: 80%;
+        max-width: 400px;
+        height: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Навбар */
+      .burger-menu {
+        display: block;
+        order: 1;
+      }
+      
+      .main-nav {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background-color: #fff;
+        transition: all 0.5s ease;
+        z-index: 1000;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 30px;
+      }
+      
+      .main-nav.active {
+        left: 0;
+      }
+      
+      .nav__links {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav__links li {
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+      }
+      
+      .nav__links li a {
+        display: block;
+        padding: 10px;
+        font-size: 18px;
+      }
+      
+      .search-input.active {
+        width: 150px;
+      }
+      
+      .header-container {
+        justify-content: space-between;
+      }
+      
+      .header-right {
+        order: 3;
+      }
+
+      /* Интересные предложения */
+      body {
+        padding: 15px;
+      }
+      .container {
+        gap: 15px;
+      }
+      .main-block {
+        padding: 25px;
+      }
+      .main-block h1 {
+        font-size: 2.2em;
+      }
+      .main-block p {
+        font-size: 0.9em;
+      }
+      .buy-button {
+        padding: 12px 25px;
+        font-size: 1em;
+      }
+      .bottom-blocks {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .block {
+        min-width: unset;
+        padding: 25px;
+      }
+      .block h2 {
+        font-size: 1.5em;
+      }
+      .block p {
+        font-size: 0.85em;
+      }
+      .catalog-button, .details-button {
+        padding: 10px 20px;
+        font-size: 0.9em;
+      }
+
+      /* Популярные товары */
+      .product-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+      .product-card {
+        width: 80%;
+        max-width: 300px;
+      }
+
+      /* Каталог */
+      .product-grid__item-kat {
+        width: 100%;
+      }
+
+      /* Преимущества */
+      .advantages-section {
+        padding: 60px 15px;
+      }
+
+      .advantages-container {
+        padding: 0;
+      }
+
+      .section-title {
+        font-size: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .advantages-cards-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .advantage-card {
+        max-width: 90%;
+        min-width: unset;
+        width: 100%;
+        padding: 25px;
+      }
+
+      .card-title {
+        font-size: 18px;
+      }
+
+      .card-text {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .advantages-section {
+        padding: 40px 10px;
+      }
+      .section-title {
+        font-size: 26px;
+      }
+      .advantage-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Навбар -->
+  <header>
+    <div class="header-container">
+      <div class="burger-menu">
+        <img src="img/menu-icon.svg" alt="Меню">
+      </div>
+      
+      <nav class="main-nav">
+        <ul class="nav__links">
+          <li><a href="#">Ноутбуки</a></li>
+          <li><a href="#">Смартфоны</a></li>
+          <li><a href="#">Часы</a></li>
+          <li><a href="#">Аксессуары</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-right">
+        <div class="search-container">
+          <button class="search-btn">
+            <img src="img/search.svg" alt="Поиск">
+          </button>
+          <input type="text" class="search-input" placeholder="Поиск...">
+        </div>
+        <a href="#" class="cart"><img src="img/cart.svg" alt="Корзина"></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Интересные предложения -->
+  <section class="container">
+    <div class="main-block">
+      <div class="content-left">
+        <h1>Apple iPhone 13 Pro Max</h1>
+        <p>Дисплей Super Retina XDR с технологией ProMotion и быстрым, плавным откликом. Грандиозный апгрейд системы камер, открывающий совершенно новые возможности.</p>
+        <button class="buy-button">Купить</button>
+      </div>
+      <img src="Phones.svg" alt="Apple iPhone 13 Pro Max" class="iphone-image">
+    </div>
+
+    <div class="bottom-blocks">
+      <div class="block installment">
+        <h2>Беспроцентная рассрочка</h2>
+        <p>Беспроцентная рассрочка в любом удобном для вас Банке!</p>
+        <button class="catalog-button">В каталог</button>
+      </div>
+      <div class="block delivery">
+        <h2>Доставка по всей России</h2>
+        <p>Отправляем почтой, СДЭК, Boxberry по всей России более 700 отправок в месяц!</p>
+        <button class="details-button">Подробнее</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Популярные товары -->
+  <section class="product-grid">
+    <div class="product-card">
+      <h3 class="product-title">Смартфон realme C25S 4</h3>
+      <div class="product-image-container">
+        <img src="https://cdn1.ozone.ru/s3/multimedia-h/6354442949.jpg" alt="Смартфон realme C25S 4" class="product-image">
+      </div>
+      <div class="product-price-row">
+        <span class="price-label">Цена</span>
+        <span class="product-price">12 490 ₽</span>
+      </div>
+      <button class="buy-button">Купить</button>
+    </div>
+
+    <div class="product-card">
+      <h3 class="product-title">Умные часы Apple Watch Series 7</h3>
+      <div class="product-image-container">
+        <img src="https://i.ebayimg.com/images/g/LMsAAOSwfFNiHjMr/s-l1200.webp" alt="Умные часы Apple Watch Series 7" class="product-image">
+      </div>
+      <div class="product-price-row">
+        <span class="price-label">Цена</span>
+        <span class="product-price">40 990 ₽</span>
+      </div>
+      <button class="buy-button">Купить</button>
+    </div>
+
+    <div class="product-card">
+      <h3 class="product-title">Ноутбук Honor Magicbook X 15 BBR-WAH9</h3>
+      <div class="product-image-container">
+        <img src="https://wizemart.ru/images/item/76/01/noutbuk_honor_magicbook_x_15bbr_wah9_1920x1080,_intel_core_i5_1_6_ggc,_ram_8_gb,_ssd_512_gb,_win10_home-4438401pic2.jpeg" alt="Ноутбук Honor Magicbook X 15 BBR-WAH9" class="product-image">
+      </div>
+      <div class="product-price-row">
+        <span class="price-label">Цена</span>
+        <span class="product-price">50 820 ₽</span>
+      </div>
+      <button class="buy-button">Купить</button>
+    </div>
+
+    <div class="product-card">
+      <h3 class="product-title">Наушники Apple Airpods pro 3</h3> 
+      <div class="product-image-container">
+        <img src="https://qwertygifts.ru/image/link/3/i/f4/f3/9821cb36d82e01930adef589e76b.jpg" alt="Беспроводные наушники" class="product-image">
+      </div>
+      <div class="product-price-row">
+        <span class="price-label">Цена</span>
+        <span class="product-price">50 820 ₽</span>
+      </div>
+      <button class="buy-button">Купить</button>
+    </div>
+  </section>
+
+  <!-- Каталог -->
+  <section class="product-grid">
+    <ul class="product-grid__list-kat">
+      <li class="product-grid__item-kat">
+        <article class="iphone product-card">
+          <table style="width: 100%;gap: 48px;"><tr>
+            <td style="width: 50%;">
+              <h3 class="product-title">Apple iPhone 13 Pro Max</h3>
+              <figure class="product-image-container">
+                <img class="product-image" src="img/i-phone.png" alt="Смартфон realme C25S 4">
+              </figure>
+              <div class="product-price-row">
+                <span class="product-price">Цена</span>
+                <span class="product-price price">290 000 ₽</span>
+              </div>
+              <button class="buy-button__card">Купить</button>
+            </td>
+            <td class="card-body" style="width: 50%;">
+              <h3 class="product-title__discr">Объем памяти</h3>
+              <div class="btn-cont">
+                <button class="btn-round" data-size="medium">256Гб</button>
+                <button class="btn-round active" data-size="large">512Гб</button>
+                <div>
+                  <h3 class="product-title__discr color">Цвет: небесно-голубой</h3>
+                </div>
+                <div class="color-box">
+                  <button class="color-btn sky-blue active-border" data-color="sky-blue"></button>
+                  <button class="color-btn green" data-color="green"></button>
+                  <button class="color-btn black" data-color="black"></button>
+                </div>
+              </div>
+            </td>
+          </tr></table>
+        </article>
+      </li>
+      <li class="product-grid__item-kat">
+        <article class="vivo product-card">
+          <table style="width: 100%;gap: 48px;"><tr>
+            <td style="width: 50%;">
+              <h3 class="product-title">Смартфон Vivo T1 6</h3>
+              <figure class="product-image-container">
+                <img class="product-image" src="img/vivo.png" alt="Смартфон realme C25S 4">
+              </figure>
+              <div class="product-price-row">
+                <span class="product-price">Цена</span>
+                <span class="product-price price">15 242 ₽</span>
+              </div>
+              <button class="buy-button__card">Купить</button>
+            </td>
+            <td class="card-body" style="width: 50%;">
+              <h3 class="product-title__discr">Объем памяти</h3>
+              <div class="btn-cont">
+                <button class="btn-round" data-size="medium">128Гб</button>
+                <button class="btn-round active" data-size="large">256Гб</button>
+                <div>
+                  <h3 class="product-title__discr color">Цвет: голубой</h3>
+                </div>
+                <div class="color-box">
+                  <button class="color-btn light-blue active-border" data-color="light-blue"></button>
+                  <button class="color-btn black" data-color="black"></button>
+                </div>
+              </div>
+            </td>
+          </tr></table>
+        </article>
+      </li>
+      <li class="product-grid__item-kat">
+        <article class="realme product-card">
+          <table style="width: 100%;gap: 48px;"><tr>
+            <td style="width: 50%;">
+              <h3 class="product-title">Смартфон realme C25S 4</h3>
+              <figure class="product-image-container">
+                <img class="product-image" src="https://cdn1.ozone.ru/s3/multimedia-h/6354442949.jpg" alt="Смартфон realme C25S 4">
+              </figure>
+              <div class="product-price-row">
+                <span class="product-price">Цена</span>
+                <span class="product-price price">12 490 ₽</span>
+              </div>
+              <button class="buy-button__card">Купить</button>
+            </td>
+            <td class="card-body" style="width: 50%;">
+              <h3 class="product-title__discr">Объем памяти</h3>
+              <div class="btn-cont">
+                <button class="btn-round" data-size="medium">128Гб</button>
+                <button class="btn-round active" data-size="large">256Гб</button>
+                <div>
+                  <h3 class="product-title__discr color">Цвет: черный</h3>
+                </div>
+                <div class="color-box">
+                  <button class="color-btn blue" data-color="blue"></button>
+                  <button class="color-btn black active-border" data-color="black"></button>
+                </div>
+              </div>
+            </td>
+          </tr></table>
+        </article>
+      </li>
+      <li class="product-grid__item-kat">
+        <article class="samsung product-card">
+          <table style="width: 100%;gap: 48px;"><tr>
+            <td style="width: 50%;">
+              <h3 class="product-title">Смартфон Samsung Galaxy S22 Ultra 12</h3>
+              <figure class="product-image-container">
+                <img class="product-image" src="img/samsung-phone.png" alt="Смартфон realme C25S 4">
+              </figure>
+              <div class="product-price-row">
+                <span class="product-price">Цена</span>
+                <span class="product-price price">104 074 ₽</span>
+              </div>
+              <button class="buy-button__card">Купить</button>
+            </td>
+            <td class="card-body" style="width: 50%;">
+              <h3 class="product-title__discr">Объем памяти</h3>
+              <div class="btn-cont">
+                <button class="btn-round" data-size="medium">256Гб</button>
+                <button class="btn-round active" data-size="large">512Гб</button>
+                <div>
+                  <h3 class="product-title__discr color">Цвет: зеленый</h3>
+                </div>
+                <div class="color-box">
+                  <button class="color-btn green active-border" data-color="green"></button>
+                  <button class="color-btn black" data-color="black"></button>
+                </div>
+              </div>
+            </td>
+          </tr></table>
+        </article>
+      </li>
+    </ul>
+    <button class="btn-more">Показать больше товаров</button>
+  </section>
+
+  <!-- Преимущества -->
+  <section class="advantages-section">
+    <div class="advantages-container">
+      <h2 class="section-title">Преимущества</h2>
+      <div class="advantages-cards-wrapper">
+        <div class="advantage-card">
+          <h3 class="card-title">Персональный сервис</h3>
+          <p class="card-text">Абсолютно каждого клиента мы проконсультируем по правильному выбору техники</p>
+        </div>
+        <div class="advantage-card">
+          <h3 class="card-title">Лучшее соотношение «Качество-цена»</h3>
+          <p class="card-text">Мы гарантируем качество каждого товара и твердо нацелены на долгосрочное сотрудничество с каждым клиентом</p>
+        </div>
+        <div class="advantage-card">
+          <h3 class="card-title">Техническая поддержка и Гарантия</h3>
+          <p class="card-text">Мы предоставляем Гарантию 12 месяцев на весь товар на складе</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Бургер-меню
+      const burgerMenu = document.querySelector('.burger-menu');
+      const mainNav = document.querySelector('.main-nav');
+      
+      burgerMenu.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+      });
+      
+      // Поиск
+      const searchBtn = document.querySelector('.search-btn');
+      const searchInput = document.querySelector('.search-input');
+      
+      searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        searchInput.classList.toggle('active');
+        if (searchInput.classList.contains('active')) {
+          searchInput.focus();
+        }
+      });
+      
+      // Закрытие меню при клике на ссылку
+      const navItems = document.querySelectorAll('.nav__links li a');
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            mainNav.classList.remove('active');
+          }
+        });
+      });
+      
+      // Закрытие поиска при клике вне поля
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+          searchInput.classList.remove('active');
+        }
+      });
+      
+      // Адаптация при изменении размера окна
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          mainNav.classList.remove('active');
+        }
+      });
+
+      // Каталог - выбор характеристик товара
+      const iphone = document.querySelector('.iphone');
+      const samsung = document.querySelector('.samsung');
+      const realme = document.querySelector('.realme');
+      const vivo = document.querySelector('.vivo');
+
+      function setupProductCard(card) {
+        card.addEventListener("click", function(event) {
+          let clickTarget = event.target;
+          let activeButton = card.querySelector('.active');
+          let priceItem = card.querySelector('.price');
+          let colorItem = card.querySelector('.color');
+          let activeButtonColor
